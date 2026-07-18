@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows10.0.19041.0</TargetFramework>
+    <SupportedOSPlatformVersion>10.0.17763.0</SupportedOSPlatformVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <DefaultItemExcludes>$(DefaultItemExcludes);obj\**;bin\**;dist\**</DefaultItemExcludes>
+    <AssemblyName>HoshinoEditor</AssemblyName>
+    <RootNamespace>HoshinoEditor</RootNamespace>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+    <Product>Hoshino Editor</Product>
+    <Company>Sail Solutions</Company>
+    <Authors>Sail Solutions</Authors>
+    <Copyright>© 2026 Sail Solutions</Copyright>
+    <Version>0.9.0-beta-1</Version>
+    <AssemblyVersion>0.9.0.0</AssemblyVersion>
+    <FileVersion>0.9.0.0</FileVersion>
+    <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
+    <ApplicationIcon>Assets\Hoshino.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Resource Include="Assets\HoshinoLogo.jpg" />
+    <Resource Include="Assets\Hoshino.ico" />
+  </ItemGroup>
+  <ItemGroup Condition="Exists('Tools\ffmpeg.exe')">
+    <None Include="Tools\ffmpeg.exe" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+  </ItemGroup>
+</Project>

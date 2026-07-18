@@ -1,0 +1,94 @@
+<UserControl x:Class="HoshinoEditor.Controls.VideoWorkspace"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             AllowDrop="True" DragOver="Root_DragOver" Drop="Root_Drop">
+  <Grid>
+    <Grid.RowDefinitions><RowDefinition Height="50" /><RowDefinition Height="*" /><RowDefinition Height="218" /></Grid.RowDefinitions>
+
+    <Border Grid.Row="0" Background="{DynamicResource Glass1}" BorderBrush="{DynamicResource Line1}" BorderThickness="0,0,0,1">
+      <Grid Margin="10,0">
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+          <Button Style="{StaticResource IconButton}" Click="Home_Click" ToolTip="Back home"><TextBlock Text="‹" FontSize="24" /></Button>
+          <Border Width="1" Height="22" Background="{DynamicResource Line2}" Margin="5,0,10,0" />
+          <TextBlock Text="VIDEO" Style="{StaticResource SectionLabel}" Foreground="{DynamicResource AccentBright}" VerticalAlignment="Center" Margin="0,0,14,0" />
+          <Button Style="{StaticResource IconButton}" Click="AddMedia_Click" ToolTip="Add media (Ctrl+O)"><StackPanel Orientation="Horizontal"><TextBlock Text="＋" FontSize="17" Margin="0,0,7,0" /><TextBlock Text="Add media" VerticalAlignment="Center" /></StackPanel></Button>
+          <Button Style="{StaticResource IconButton}" Click="SaveProject_Click" ToolTip="Save project (Ctrl+S)">Save project</Button>
+          <Button x:Name="UndoButton" Style="{StaticResource IconButton}" Click="Undo_Click" ToolTip="Undo (Ctrl+Z)" Content="↶" FontSize="18" IsEnabled="False" />
+          <Button x:Name="RedoButton" Style="{StaticResource IconButton}" Click="Redo_Click" ToolTip="Redo (Ctrl+Y)" Content="↷" FontSize="18" IsEnabled="False" />
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+          <TextBlock x:Name="ProjectDurationText" Text="0:00" Foreground="{DynamicResource TextFaint}" FontFamily="{StaticResource MonoFont}" FontSize="10" VerticalAlignment="Center" Margin="0,0,14,0" />
+          <Button x:Name="ExportButton" Style="{StaticResource PrimaryButton}" Padding="17,8" Click="Export_Click">Export video</Button>
+        </StackPanel>
+      </Grid>
+    </Border>
+
+    <Grid Grid.Row="1">
+      <Grid.ColumnDefinitions><ColumnDefinition Width="216" /><ColumnDefinition Width="*" /><ColumnDefinition Width="286" /></Grid.ColumnDefinitions>
+      <Border Grid.Column="0" Background="#9912121B" BorderBrush="{DynamicResource Line1}" BorderThickness="0,0,1,0">
+        <Grid Margin="10,14"><Grid.RowDefinitions><RowDefinition Height="Auto" /><RowDefinition Height="Auto" /><RowDefinition Height="*" /></Grid.RowDefinitions>
+          <TextBlock Text="MEDIA BIN" Style="{StaticResource SectionLabel}" Margin="6,0" />
+          <Button Grid.Row="1" Style="{StaticResource SecondaryButton}" Height="36" Margin="0,12,0,10" Click="AddMedia_Click">＋  Import clips</Button>
+          <ListBox x:Name="MediaList" Grid.Row="2" ItemsSource="{Binding Clips, RelativeSource={RelativeSource AncestorType=UserControl}}" SelectionChanged="MediaList_SelectionChanged" Background="Transparent" BorderThickness="0" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+            <ListBox.ItemContainerStyle><Style TargetType="ListBoxItem"><Setter Property="HorizontalContentAlignment" Value="Stretch" /><Setter Property="Padding" Value="0" /><Setter Property="Margin" Value="0,2" /><Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ListBoxItem"><Border x:Name="b" Background="Transparent" BorderBrush="Transparent" BorderThickness="1" CornerRadius="8" Padding="8"><ContentPresenter /></Border><ControlTemplate.Triggers><Trigger Property="IsMouseOver" Value="True"><Setter TargetName="b" Property="Background" Value="{DynamicResource Glass3}" /></Trigger><Trigger Property="IsSelected" Value="True"><Setter TargetName="b" Property="Background" Value="{DynamicResource AccentWash}" /><Setter TargetName="b" Property="BorderBrush" Value="{DynamicResource AccentLine}" /></Trigger></ControlTemplate.Triggers></ControlTemplate></Setter.Value></Setter></Style></ListBox.ItemContainerStyle>
+            <ListBox.ItemTemplate><DataTemplate><Grid><Grid.ColumnDefinitions><ColumnDefinition Width="38" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions><Border Width="34" Height="30" CornerRadius="5" Background="#FF1B1724"><TextBlock Text="▶" Foreground="{DynamicResource AccentBright}" FontSize="11" HorizontalAlignment="Center" VerticalAlignment="Center" /></Border><StackPanel Grid.Column="1" Margin="8,0,0,0"><TextBlock Text="{Binding Name}" TextTrimming="CharacterEllipsis" FontSize="11" /><TextBlock Text="{Binding DurationText}" Foreground="{DynamicResource TextFaint}" FontFamily="{StaticResource MonoFont}" FontSize="9" Margin="0,2,0,0" /></StackPanel></Grid></DataTemplate></ListBox.ItemTemplate>
+          </ListBox>
+        </Grid>
+      </Border>
+
+      <Grid Grid.Column="1" Background="#7007070B">
+        <Grid.RowDefinitions><RowDefinition Height="*" /><RowDefinition Height="70" /></Grid.RowDefinitions>
+        <Grid x:Name="EmptyState" HorizontalAlignment="Center" VerticalAlignment="Center">
+          <StackPanel HorizontalAlignment="Center"><Border Width="64" Height="64" Background="{DynamicResource AccentWash}" BorderBrush="{DynamicResource AccentLine}" BorderThickness="1" CornerRadius="18" HorizontalAlignment="Center"><TextBlock Text="▶" Foreground="{DynamicResource AccentBright}" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Center" /></Border><TextBlock Text="Drop video clips here" FontSize="20" FontWeight="SemiBold" HorizontalAlignment="Center" Margin="0,18,0,5" /><TextBlock Text="Import one or several clips to begin" Foreground="{DynamicResource TextDim}" HorizontalAlignment="Center" /></StackPanel>
+        </Grid>
+        <Border x:Name="PlayerFrame" Margin="20,16,20,8" Background="Black" BorderBrush="{DynamicResource Line2}" BorderThickness="1" CornerRadius="8" Visibility="Collapsed" ClipToBounds="True">
+          <Grid><MediaElement x:Name="Player" LoadedBehavior="Manual" UnloadedBehavior="Manual" Stretch="Uniform" ScrubbingEnabled="True" MediaOpened="Player_MediaOpened" MediaFailed="Player_MediaFailed" /><Border Background="#AA12121B" CornerRadius="7" Padding="8,4" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10"><TextBlock x:Name="PreviewLabel" Text="PREVIEW" Style="{StaticResource SectionLabel}" /></Border></Grid>
+        </Border>
+
+        <Grid Grid.Row="1" Margin="20,0"><Grid.RowDefinitions><RowDefinition Height="28" /><RowDefinition Height="36" /></Grid.RowDefinitions>
+          <Slider x:Name="Scrubber" Grid.Row="0" Minimum="0" Maximum="1" ValueChanged="Scrubber_ValueChanged" PreviewMouseLeftButtonDown="Scrubber_DragStarted" PreviewMouseLeftButtonUp="Scrubber_DragEnded" IsEnabled="False" />
+          <Grid Grid.Row="1"><StackPanel Orientation="Horizontal" HorizontalAlignment="Center"><Button x:Name="PreviousButton" Style="{StaticResource IconButton}" Click="Previous_Click" ToolTip="Previous clip">│‹</Button><Button x:Name="PlayButton" Style="{StaticResource IconButton}" Click="Play_Click" ToolTip="Play / pause (Space)"><TextBlock Text="▶" FontSize="14" /></Button><Button x:Name="NextButton" Style="{StaticResource IconButton}" Click="Next_Click" ToolTip="Next clip">›│</Button></StackPanel><TextBlock x:Name="TimeText" Text="0:00 / 0:00" Foreground="{DynamicResource TextFaint}" FontFamily="{StaticResource MonoFont}" FontSize="10" VerticalAlignment="Center" HorizontalAlignment="Left" /><StackPanel Orientation="Horizontal" HorizontalAlignment="Right"><Button x:Name="MuteButton" Style="{StaticResource IconButton}" Width="34" Padding="0" Click="Mute_Click" Content="♪" ToolTip="Mute" /><Slider x:Name="VolumeSlider" Width="80" Minimum="0" Maximum="1" Value="0.8" ValueChanged="Volume_ValueChanged" /></StackPanel></Grid>
+        </Grid>
+      </Grid>
+
+      <Border Grid.Column="2" Background="#9912121B" BorderBrush="{DynamicResource Line1}" BorderThickness="1,0,0,0">
+        <ScrollViewer VerticalScrollBarVisibility="Auto"><StackPanel Margin="18,16">
+          <TextBlock Text="CLIP INSPECTOR" Style="{StaticResource SectionLabel}" />
+          <TextBlock x:Name="InspectorName" Text="Select a clip" FontSize="15" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" Margin="0,10,0,3" />
+          <TextBlock x:Name="InspectorMeta" Text="Trim and speed controls will appear here." Foreground="{DynamicResource TextFaint}" TextWrapping="Wrap" FontSize="11" />
+          <Border Height="1" Background="{DynamicResource Line1}" Margin="0,18" />
+          <TextBlock Text="TRIM" Style="{StaticResource SectionLabel}" />
+          <Grid Margin="0,13,0,0"><Grid.ColumnDefinitions><ColumnDefinition /><ColumnDefinition Width="62" /></Grid.ColumnDefinitions><TextBlock Text="In point" Foreground="{DynamicResource TextDim}" /><TextBlock x:Name="InValue" Grid.Column="1" HorizontalAlignment="Right" FontFamily="{StaticResource MonoFont}" Foreground="{DynamicResource TextFaint}" /></Grid>
+          <Slider x:Name="InSlider" Minimum="0" Maximum="1" ValueChanged="InSlider_ValueChanged" PreviewMouseLeftButtonDown="InspectorEdit_Begin" IsEnabled="False" />
+          <Grid Margin="0,10,0,0"><Grid.ColumnDefinitions><ColumnDefinition /><ColumnDefinition Width="62" /></Grid.ColumnDefinitions><TextBlock Text="Out point" Foreground="{DynamicResource TextDim}" /><TextBlock x:Name="OutValue" Grid.Column="1" HorizontalAlignment="Right" FontFamily="{StaticResource MonoFont}" Foreground="{DynamicResource TextFaint}" /></Grid>
+          <Slider x:Name="OutSlider" Minimum="0" Maximum="1" Value="1" ValueChanged="OutSlider_ValueChanged" PreviewMouseLeftButtonDown="InspectorEdit_Begin" IsEnabled="False" />
+          <Border Height="1" Background="{DynamicResource Line1}" Margin="0,18" />
+          <TextBlock Text="SPEED" Style="{StaticResource SectionLabel}" />
+          <UniformGrid Columns="3" Margin="0,12,0,0"><Button Style="{StaticResource IconButton}" Tag="0.5" Click="Speed_Click">0.5×</Button><Button Style="{StaticResource IconButton}" Tag="1" Click="Speed_Click">1×</Button><Button Style="{StaticResource IconButton}" Tag="1.5" Click="Speed_Click">1.5×</Button><Button Style="{StaticResource IconButton}" Tag="2" Click="Speed_Click">2×</Button><Button Style="{StaticResource IconButton}" Tag="3" Click="Speed_Click">3×</Button><Button Style="{StaticResource IconButton}" Tag="4" Click="Speed_Click">4×</Button></UniformGrid>
+          <Border Height="1" Background="{DynamicResource Line1}" Margin="0,18" />
+          <TextBlock Text="EXPORT UPSCALER" Style="{StaticResource SectionLabel}" />
+          <Grid Margin="0,11,0,0"><Grid.ColumnDefinitions><ColumnDefinition /><ColumnDefinition Width="60" /></Grid.ColumnDefinitions><TextBlock Text="Output scale" Foreground="{DynamicResource TextDim}" /><TextBlock x:Name="VideoUpscaleValue" Grid.Column="1" HorizontalAlignment="Right" FontFamily="{StaticResource MonoFont}" Foreground="{DynamicResource AccentBright}" /></Grid>
+          <Slider x:Name="VideoUpscaleSlider" Minimum="100" Maximum="1000" Value="100" TickFrequency="25" ValueChanged="VideoUpscale_ValueChanged" />
+          <TextBlock Text="GPU-first FFmpeg encoding is used when available, with high-quality scaling and a compatibility fallback." Foreground="{DynamicResource TextFaint}" FontSize="10" TextWrapping="Wrap" Margin="0,5,0,0" />
+          <Border Height="1" Background="{DynamicResource Line1}" Margin="0,18" />
+          <TextBlock Text="EDIT" Style="{StaticResource SectionLabel}" />
+          <Button Style="{StaticResource SecondaryButton}" Height="36" Margin="0,12,0,0" Click="Split_Click">✂  Split at playhead</Button>
+          <Grid Margin="0,8,0,0"><Grid.ColumnDefinitions><ColumnDefinition /><ColumnDefinition Width="8" /><ColumnDefinition /></Grid.ColumnDefinitions><Button Style="{StaticResource SecondaryButton}" Height="34" Click="Duplicate_Click">Duplicate</Button><Button Grid.Column="2" Style="{StaticResource SecondaryButton}" Height="34" Click="Remove_Click" Foreground="{DynamicResource Danger}">Remove</Button></Grid>
+        </StackPanel></ScrollViewer>
+      </Border>
+    </Grid>
+
+    <Border Grid.Row="2" Background="#ED0D0D14" BorderBrush="{DynamicResource Line2}" BorderThickness="0,1,0,0">
+      <Grid Margin="14,10"><Grid.RowDefinitions><RowDefinition Height="34" /><RowDefinition Height="*" /></Grid.RowDefinitions>
+        <Grid><StackPanel Orientation="Horizontal"><TextBlock Text="TIMELINE" Style="{StaticResource SectionLabel}" VerticalAlignment="Center" Margin="4,0,14,0" /><Button Style="{StaticResource IconButton}" Click="Split_Click" ToolTip="Split at playhead">✂  Split</Button><Button Style="{StaticResource IconButton}" Click="MoveLeft_Click" ToolTip="Move clip left">←</Button><Button Style="{StaticResource IconButton}" Click="MoveRight_Click" ToolTip="Move clip right">→</Button></StackPanel><TextBlock Text="Drag in clips  ·  select to trim  ·  Space to preview" Foreground="{DynamicResource TextFaint}" FontSize="10" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,6,0" /></Grid>
+        <Border Grid.Row="1" Background="#74000000" BorderBrush="{DynamicResource Line1}" BorderThickness="1" CornerRadius="8" Padding="10">
+          <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled"><ListBox x:Name="TimelineList" ItemsSource="{Binding Clips, RelativeSource={RelativeSource AncestorType=UserControl}}" SelectionChanged="TimelineList_SelectionChanged" Background="Transparent" BorderThickness="0"><ListBox.ItemsPanel><ItemsPanelTemplate><StackPanel Orientation="Horizontal" /></ItemsPanelTemplate></ListBox.ItemsPanel><ListBox.ItemContainerStyle><Style TargetType="ListBoxItem"><Setter Property="Padding" Value="0" /><Setter Property="Margin" Value="2,4" /><Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ListBoxItem"><Border x:Name="b" Width="{Binding TimelineWidth}" Height="94" Background="#FF22182F" BorderBrush="#55514960" BorderThickness="1" CornerRadius="7"><ContentPresenter /></Border><ControlTemplate.Triggers><Trigger Property="IsMouseOver" Value="True"><Setter TargetName="b" Property="BorderBrush" Value="{DynamicResource AccentLine}" /></Trigger><Trigger Property="IsSelected" Value="True"><Setter TargetName="b" Property="Background" Value="{DynamicResource AccentWash2}" /><Setter TargetName="b" Property="BorderBrush" Value="{DynamicResource AccentBright}" /><Setter TargetName="b" Property="BorderThickness" Value="2" /></Trigger></ControlTemplate.Triggers></ControlTemplate></Setter.Value></Setter></Style></ListBox.ItemContainerStyle><ListBox.ItemTemplate><DataTemplate><Grid Margin="10,8"><Grid.RowDefinitions><RowDefinition Height="*" /><RowDefinition Height="Auto" /></Grid.RowDefinitions><Grid><TextBlock Text="▶" Foreground="#55C084FC" FontSize="28" HorizontalAlignment="Center" VerticalAlignment="Center" /><TextBlock Text="{Binding SpeedText}" Foreground="{DynamicResource AccentBright}" FontFamily="{StaticResource MonoFont}" FontSize="10" HorizontalAlignment="Right" VerticalAlignment="Top" /></Grid><Grid Grid.Row="1"><TextBlock Text="{Binding Name}" TextTrimming="CharacterEllipsis" FontSize="10" MaxWidth="230" /><TextBlock Text="{Binding DurationText}" Foreground="{DynamicResource TextFaint}" FontFamily="{StaticResource MonoFont}" FontSize="9" HorizontalAlignment="Right" Margin="8,0,0,0" /></Grid></Grid></DataTemplate></ListBox.ItemTemplate></ListBox></ScrollViewer>
+        </Border>
+      </Grid>
+    </Border>
+
+    <Border x:Name="ExportOverlay" Grid.RowSpan="3" Background="#C908080C" Visibility="Collapsed" Panel.ZIndex="30">
+      <Border Width="390" Background="#FA12121B" BorderBrush="{DynamicResource AccentLine}" BorderThickness="1" CornerRadius="14" Padding="26" HorizontalAlignment="Center" VerticalAlignment="Center"><StackPanel><TextBlock Text="Rendering your video" FontSize="20" FontWeight="SemiBold" /><TextBlock x:Name="ExportStatusText" Text="Preparing clips…" Foreground="{DynamicResource TextDim}" Margin="0,6,0,18" /><ProgressBar x:Name="ExportProgress" Height="6" Minimum="0" Maximum="100" Background="{DynamicResource Glass4}" Foreground="{DynamicResource Accent}" BorderThickness="0" /><TextBlock Text="Hoshino uses Windows' local media engine. No upload, no cloud." Foreground="{DynamicResource TextFaint}" FontSize="10" Margin="0,14,0,0" /></StackPanel></Border>
+    </Border>
+  </Grid>
+</UserControl>

@@ -1,0 +1,35 @@
+# Build outputs
+bin/
+obj/
+dist/
+artifacts/
+TestResults/
+
+# Visual Studio and IDE state
+.vs/
+.vscode/
+.idea/
+*.user
+*.suo
+*.rsuser
+*.userosscache
+*.sln.docstates
+
+# Local publish profiles
+*.pubxml.user
+
+# Downloaded third-party binaries
+Tools/ffmpeg.exe
+
+# Local Hoshino projects and media-editing scratch files
+*.hoshino
+*.tmp
+*.bak
+
+# Installer outputs
+installer/Output/
+
+# Operating-system files
+Thumbs.db
+Desktop.ini
+.DS_Store
