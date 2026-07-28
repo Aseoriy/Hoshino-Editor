@@ -12,12 +12,7 @@
 
 ## Why Hoshino?
 
-Hoshino is designed for quick, private editing without a browser runtime, account, subscription, cloud upload, or telemetry layer. Your media stays on your computer and all editing and export work happens locally.
-
-- **Native Windows application** — built with WPF and Windows media APIs
-- **Local-first** — no account, cloud sync, advertising, or media uploads
-- **Photo and video tools together** — one lightweight editor for everyday work
-- **Self-contained installer** — no separate .NET or FFmpeg installation required
+Yeah bro idk, wait till its better.
 
 ## Download and install
 
