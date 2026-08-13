@@ -13,12 +13,14 @@ public partial class StartWorkspace : UserControl
 
     public StartWorkspace() => InitializeComponent();
 
+    public void Open() => Open_Click(this, new RoutedEventArgs());
+
     private void Open_Click(object sender, RoutedEventArgs e)
     {
         var dialog = new OpenFileDialog
         {
             Title = "Open media in Hoshino",
-            Filter = "Supported media|*.png;*.jpg;*.jpeg;*.webp;*.bmp;*.gif;*.tif;*.tiff;*.mp4;*.mov;*.mkv;*.avi;*.webm;*.wmv;*.m4v|Images|*.png;*.jpg;*.jpeg;*.webp;*.bmp;*.gif;*.tif;*.tiff|Videos|*.mp4;*.mov;*.mkv;*.avi;*.webm;*.wmv;*.m4v|All files|*.*"
+            Filter = "Supported media and projects|*.hoshino;*.png;*.jpg;*.jpeg;*.webp;*.bmp;*.gif;*.tif;*.tiff;*.mp4;*.mov;*.mkv;*.avi;*.webm;*.wmv;*.m4v|Hoshino projects|*.hoshino|Images|*.png;*.jpg;*.jpeg;*.webp;*.bmp;*.gif;*.tif;*.tiff|Videos|*.mp4;*.mov;*.mkv;*.avi;*.webm;*.wmv;*.m4v|All files|*.*"
         };
         if (dialog.ShowDialog() == true) OpenRequested?.Invoke(this, dialog.FileName);
     }

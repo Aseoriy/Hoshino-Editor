@@ -7,93 +7,133 @@
     <Border Grid.Row="0" Background="{DynamicResource Glass1}" BorderBrush="{DynamicResource Line1}" BorderThickness="0,0,0,1">
       <Grid Margin="10,0">
         <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-          <Button Style="{StaticResource IconButton}" Click="Home_Click" ToolTip="Back home"><TextBlock Text="‹" FontSize="24" /></Button>
+          <Button Style="{StaticResource IconButton}" Click="Home_Click" ToolTip="Back home" AutomationProperties.Name="Back to home"><TextBlock Text="‹" FontSize="24" /></Button>
           <Border Width="1" Height="22" Background="{DynamicResource Line2}" Margin="5,0,10,0" />
           <TextBlock Text="COMPOSITOR" Style="{StaticResource SectionLabel}" Foreground="{DynamicResource AccentBright}" VerticalAlignment="Center" Margin="0,0,14,0" />
           <Button Style="{StaticResource IconButton}" Click="Open_Click" ToolTip="Import images (Ctrl+O / Ctrl+I)"><StackPanel Orientation="Horizontal"><TextBlock Text="＋" FontSize="17" Margin="0,0,7,0" /><TextBlock Text="Import" VerticalAlignment="Center" /></StackPanel></Button>
-          <Button x:Name="UndoButton" Style="{StaticResource IconButton}" Click="Undo_Click" ToolTip="Undo (Ctrl+Z)" Content="↶" FontSize="18" IsEnabled="False" />
-          <Button x:Name="RedoButton" Style="{StaticResource IconButton}" Click="Redo_Click" ToolTip="Redo (Ctrl+Y)" Content="↷" FontSize="18" IsEnabled="False" />
+          <Button Style="{StaticResource IconButton}" Click="TextTool_Click" ToolTip="Add a text layer"><StackPanel Orientation="Horizontal"><TextBlock Text="T" FontWeight="Bold" FontSize="15" Margin="0,0,7,0" /><TextBlock Text="Text" VerticalAlignment="Center" /></StackPanel></Button>
+          <Button x:Name="UndoButton" Style="{StaticResource IconButton}" Click="Undo_Click" ToolTip="Undo (Ctrl+Z)" Content="↶" FontSize="18" IsEnabled="False" AutomationProperties.Name="Undo" />
+          <Button x:Name="RedoButton" Style="{StaticResource IconButton}" Click="Redo_Click" ToolTip="Redo (Ctrl+Y)" Content="↷" FontSize="18" IsEnabled="False" AutomationProperties.Name="Redo" />
         </StackPanel>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
-          <Button Style="{StaticResource IconButton}" Click="ZoomOut_Click" ToolTip="Zoom out (Ctrl+-)" Content="−" FontSize="18" />
-          <Button Style="{StaticResource IconButton}" Click="ZoomReset_Click" ToolTip="Reset zoom (Ctrl+0)"><TextBlock x:Name="ZoomText" Text="100%" FontFamily="{StaticResource MonoFont}" FontSize="10" /></Button>
-          <Button Style="{StaticResource IconButton}" Click="ZoomIn_Click" ToolTip="Zoom in (Ctrl++)" Content="＋" FontSize="16" />
+          <Button Style="{StaticResource IconButton}" Click="ZoomOut_Click" ToolTip="Zoom out (Ctrl+-)" Content="−" FontSize="18" AutomationProperties.Name="Zoom out" />
+          <Button Style="{StaticResource IconButton}" Click="ZoomReset_Click" ToolTip="Reset zoom (Ctrl+0)" AutomationProperties.Name="Reset zoom"><TextBlock x:Name="ZoomText" Text="100%" FontFamily="{StaticResource MonoFont}" FontSize="10" /></Button>
+          <Button Style="{StaticResource IconButton}" Click="ZoomIn_Click" ToolTip="Zoom in (Ctrl++)" Content="＋" FontSize="16" AutomationProperties.Name="Zoom in" />
           <Button Style="{StaticResource IconButton}" Click="Fit_Click" ToolTip="Fit composition (Ctrl+9)" Content="Fit" />
-          <TextBlock x:Name="DimensionsText" Foreground="{DynamicResource TextFaint}" FontFamily="{StaticResource MonoFont}" FontSize="10" VerticalAlignment="Center" Margin="10,0,14,0" />
-          <Button Style="{StaticResource PrimaryButton}" Padding="17,8" Click="Export_Click">Merge &amp; export</Button>
+          <TextBlock x:Name="DimensionsText" Foreground="{DynamicResource TextDim}" FontFamily="{StaticResource MonoFont}" FontSize="10" VerticalAlignment="Center" Margin="10,0,14,0" AutomationProperties.LiveSetting="Polite" />
+          <Button x:Name="PhotoExportButton" Style="{StaticResource PrimaryButton}" Padding="17,8" Click="Export_Click">Merge &amp; export</Button>
         </StackPanel>
       </Grid>
     </Border>
 
     <Grid Grid.Row="1">
-      <Grid.ColumnDefinitions><ColumnDefinition Width="66" /><ColumnDefinition Width="*" /><ColumnDefinition Width="322" /></Grid.ColumnDefinitions>
-      <Border Grid.Column="0" Background="#9912121B" BorderBrush="{DynamicResource Line1}" BorderThickness="0,0,1,0">
-        <StackPanel Margin="8,12">
-          <ToggleButton x:Name="CropTool" Style="{StaticResource ToolToggle}" Height="48" Click="CropTool_Click" ToolTip="Crop selected layer"><StackPanel><TextBlock Text="⌗" FontSize="19" HorizontalAlignment="Center" /><TextBlock Text="Crop" FontSize="9" /></StackPanel></ToggleButton>
-          <Button Style="{StaticResource IconButton}" Height="48" Click="RotateLeft_Click" ToolTip="Rotate selected / all"><StackPanel><TextBlock Text="↶" FontSize="18" HorizontalAlignment="Center" /><TextBlock Text="Left" FontSize="9" /></StackPanel></Button>
-          <Button Style="{StaticResource IconButton}" Height="48" Click="RotateRight_Click" ToolTip="Rotate selected / all"><StackPanel><TextBlock Text="↷" FontSize="18" HorizontalAlignment="Center" /><TextBlock Text="Right" FontSize="9" /></StackPanel></Button>
-          <Button Style="{StaticResource IconButton}" Height="48" Click="FlipH_Click" ToolTip="Flip horizontal"><StackPanel><TextBlock Text="↔" FontSize="18" HorizontalAlignment="Center" /><TextBlock Text="Flip H" FontSize="9" /></StackPanel></Button>
-          <Button Style="{StaticResource IconButton}" Height="48" Click="FlipV_Click" ToolTip="Flip vertical"><StackPanel><TextBlock Text="↕" FontSize="18" HorizontalAlignment="Center" /><TextBlock Text="Flip V" FontSize="9" /></StackPanel></Button>
-          <Button Style="{StaticResource IconButton}" Height="48" Click="BringForward_Click" ToolTip="Bring selected layer forward"><StackPanel><TextBlock Text="↑" FontSize="18" HorizontalAlignment="Center" /><TextBlock Text="Front" FontSize="9" /></StackPanel></Button>
-          <Button Style="{StaticResource IconButton}" Height="48" Click="SendBackward_Click" ToolTip="Send selected layer backward"><StackPanel><TextBlock Text="↓" FontSize="18" HorizontalAlignment="Center" /><TextBlock Text="Back" FontSize="9" /></StackPanel></Button>
-        </StackPanel>
+      <Grid.ColumnDefinitions><ColumnDefinition Width="78" /><ColumnDefinition Width="*" /><ColumnDefinition Width="322" /></Grid.ColumnDefinitions>
+      <Border Grid.Column="0" Background="{DynamicResource BgChrome}" BorderBrush="{DynamicResource Line1}" BorderThickness="0,0,1,0">
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" PanningMode="VerticalOnly" Focusable="False">
+          <StackPanel x:Name="PhotoLayerToolControls" Margin="6,10">
+            <ToggleButton x:Name="MoveTool" Style="{StaticResource ToolToggle}" Height="48" IsChecked="True" Click="MoveTool_Click" ToolTip="Move selected layer (V)" AutomationProperties.Name="Move tool"><StackPanel><TextBlock Text="↖" FontSize="18" HorizontalAlignment="Center" /><TextBlock Text="Move" FontSize="9" /></StackPanel></ToggleButton>
+            <ToggleButton x:Name="PanTool" Style="{StaticResource ToolToggle}" Height="48" Click="PanTool_Click" ToolTip="Pan canvas (H or middle mouse)" AutomationProperties.Name="Hand tool"><StackPanel><TextBlock Text="✋" FontSize="16" HorizontalAlignment="Center" /><TextBlock Text="Hand" FontSize="9" /></StackPanel></ToggleButton>
+            <ToggleButton x:Name="CropTool" Style="{StaticResource ToolToggle}" Height="48" Click="CropTool_Click" ToolTip="Crop selected layer" AutomationProperties.Name="Crop tool"><StackPanel><TextBlock Text="⌗" FontSize="19" HorizontalAlignment="Center" /><TextBlock Text="Crop" FontSize="9" /></StackPanel></ToggleButton>
+            <Button Style="{StaticResource IconButton}" Height="48" Click="RotateLeft_Click" ToolTip="Rotate selected / all" AutomationProperties.Name="Rotate left"><StackPanel><TextBlock Text="↶" FontSize="18" HorizontalAlignment="Center" /><TextBlock Text="Left" FontSize="9" /></StackPanel></Button>
+            <Button Style="{StaticResource IconButton}" Height="48" Click="RotateRight_Click" ToolTip="Rotate selected / all" AutomationProperties.Name="Rotate right"><StackPanel><TextBlock Text="↷" FontSize="18" HorizontalAlignment="Center" /><TextBlock Text="Right" FontSize="9" /></StackPanel></Button>
+            <Button Style="{StaticResource IconButton}" Height="48" Click="FlipH_Click" ToolTip="Flip horizontal" AutomationProperties.Name="Flip horizontally"><StackPanel><TextBlock Text="↔" FontSize="18" HorizontalAlignment="Center" /><TextBlock Text="Flip H" FontSize="9" /></StackPanel></Button>
+            <Button Style="{StaticResource IconButton}" Height="48" Click="FlipV_Click" ToolTip="Flip vertical" AutomationProperties.Name="Flip vertically"><StackPanel><TextBlock Text="↕" FontSize="18" HorizontalAlignment="Center" /><TextBlock Text="Flip V" FontSize="9" /></StackPanel></Button>
+            <Button Style="{StaticResource IconButton}" Height="48" Click="BringForward_Click" ToolTip="Bring selected layer forward" AutomationProperties.Name="Bring layer forward"><StackPanel><TextBlock Text="↑" FontSize="18" HorizontalAlignment="Center" /><TextBlock Text="Front" FontSize="9" /></StackPanel></Button>
+            <Button Style="{StaticResource IconButton}" Height="48" Click="SendBackward_Click" ToolTip="Send selected layer backward" AutomationProperties.Name="Send layer backward"><StackPanel><TextBlock Text="↓" FontSize="18" HorizontalAlignment="Center" /><TextBlock Text="Back" FontSize="9" /></StackPanel></Button>
+            <Button Style="{StaticResource IconButton}" Height="48" Click="AutoTone_Click" ToolTip="Automatically balance tones" AutomationProperties.Name="Auto tone"><StackPanel><TextBlock Text="A" FontSize="16" HorizontalAlignment="Center" /><TextBlock Text="Auto" FontSize="9" /></StackPanel></Button>
+            <Button Style="{StaticResource IconButton}" Height="48" Click="Grayscale_Click" ToolTip="Convert selected / all to black and white" AutomationProperties.Name="Black and white"><StackPanel><TextBlock Text="◐" FontSize="17" HorizontalAlignment="Center" /><TextBlock Text="B&amp;W" FontSize="9" /></StackPanel></Button>
+            <Button Style="{StaticResource IconButton}" Height="48" Click="Sharpen_Click" ToolTip="Sharpen selected / all" AutomationProperties.Name="Sharpen"><StackPanel><TextBlock Text="◇" FontSize="17" HorizontalAlignment="Center" /><TextBlock Text="Sharp" FontSize="9" /></StackPanel></Button>
+          </StackPanel>
+        </ScrollViewer>
       </Border>
 
-      <Grid Grid.Column="1" Background="#7007070B">
+      <Grid Grid.Column="1" Background="{DynamicResource Bg}">
         <Grid x:Name="EmptyState" HorizontalAlignment="Center" VerticalAlignment="Center" Panel.ZIndex="2">
           <StackPanel HorizontalAlignment="Center"><Border Width="70" Height="70" CornerRadius="18" ClipToBounds="True" HorizontalAlignment="Center"><Image Source="/Assets/HoshinoLogo.jpg" Stretch="UniformToFill" /></Border><TextBlock Text="Drop one or more images here" FontSize="20" FontWeight="SemiBold" HorizontalAlignment="Center" Margin="0,18,0,5" /><TextBlock Text="Layer, edit, resize, upscale, and merge locally" Foreground="{DynamicResource TextDim}" HorizontalAlignment="Center" /></StackPanel>
         </Grid>
-        <ScrollViewer x:Name="CanvasScroll" Margin="18" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Background="#40000000" PreviewMouseWheel="CanvasScroll_PreviewMouseWheel">
-          <Canvas x:Name="CompositionCanvas" Width="1400" Height="900" ClipToBounds="False"
+        <ScrollViewer x:Name="CanvasScroll" Margin="18" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Background="{DynamicResource CanvasSurface}" PreviewMouseWheel="CanvasScroll_PreviewMouseWheel"
+                      PreviewMouseDown="CanvasScroll_PreviewMouseDown" PreviewMouseMove="CanvasScroll_PreviewMouseMove" PreviewMouseUp="CanvasScroll_PreviewMouseUp" LostMouseCapture="CanvasScroll_LostMouseCapture">
+          <Canvas x:Name="CompositionCanvas" Width="1000" Height="700" ClipToBounds="False"
                   MouseLeftButtonDown="Canvas_MouseLeftButtonDown" MouseMove="Canvas_MouseMove" MouseLeftButtonUp="Canvas_MouseLeftButtonUp">
             <Canvas.LayoutTransform><ScaleTransform x:Name="CanvasZoomTransform" ScaleX="1" ScaleY="1" /></Canvas.LayoutTransform>
-            <Rectangle x:Name="CropShadeTop" Fill="#99000000" Panel.ZIndex="9000" />
-            <Rectangle x:Name="CropShadeLeft" Fill="#99000000" Panel.ZIndex="9000" />
-            <Rectangle x:Name="CropShadeRight" Fill="#99000000" Panel.ZIndex="9000" />
-            <Rectangle x:Name="CropShadeBottom" Fill="#99000000" Panel.ZIndex="9000" />
+            <Rectangle x:Name="CropShadeTop" Fill="{DynamicResource CropShade}" Panel.ZIndex="9000" />
+            <Rectangle x:Name="CropShadeLeft" Fill="{DynamicResource CropShade}" Panel.ZIndex="9000" />
+            <Rectangle x:Name="CropShadeRight" Fill="{DynamicResource CropShade}" Panel.ZIndex="9000" />
+            <Rectangle x:Name="CropShadeBottom" Fill="{DynamicResource CropShade}" Panel.ZIndex="9000" />
             <Rectangle x:Name="CropRectangle" Stroke="{DynamicResource AccentBright}" StrokeThickness="1.5" Fill="#08FFFFFF" Visibility="Collapsed" Panel.ZIndex="9001" />
           </Canvas>
         </ScrollViewer>
-        <Border x:Name="RenderingBadge" Background="#D912121B" BorderBrush="{DynamicResource Line2}" BorderThickness="1" CornerRadius="7" Padding="9,5" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="28" Visibility="Collapsed"><TextBlock Text="Processing locally…" Foreground="{DynamicResource TextDim}" FontSize="10" /></Border>
+        <Border x:Name="RenderingBadge" Background="{DynamicResource BgChrome}" BorderBrush="{DynamicResource Line2}" BorderThickness="1" CornerRadius="7" Padding="9,5" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="28" Visibility="Collapsed"><TextBlock Text="Processing locally…" Foreground="{DynamicResource TextDim}" FontSize="10" AutomationProperties.LiveSetting="Polite" /></Border>
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,28" Panel.ZIndex="4"><StackPanel Orientation="Horizontal"><Button x:Name="ApplyCropButton" Style="{StaticResource PrimaryButton}" Padding="15,7" Click="ApplyCrop_Click" IsEnabled="False" Visibility="Collapsed">Apply crop</Button><Button x:Name="CancelCropButton" Style="{StaticResource SecondaryButton}" Height="34" Margin="7,0,0,0" Click="CancelCrop_Click" Visibility="Collapsed">Cancel</Button></StackPanel></StackPanel>
       </Grid>
 
-      <Border Grid.Column="2" Background="#9912121B" BorderBrush="{DynamicResource Line1}" BorderThickness="1,0,0,0">
+      <Border Grid.Column="2" Background="{DynamicResource BgChrome}" BorderBrush="{DynamicResource Line1}" BorderThickness="1,0,0,0">
         <ScrollViewer VerticalScrollBarVisibility="Auto"><StackPanel Margin="17,15">
-          <Grid><TextBlock Text="LAYERS" Style="{StaticResource SectionLabel}" /><Button Style="{StaticResource IconButton}" HorizontalAlignment="Right" Height="26" Click="RemoveLayer_Click" ToolTip="Remove selected layer (Delete)">Remove</Button></Grid>
-          <ListBox x:Name="LayerList" Height="142" Margin="0,10,0,12" ItemsSource="{Binding Layers}" SelectionChanged="LayerList_SelectionChanged" Background="{DynamicResource Glass1}" BorderBrush="{DynamicResource Line1}" Foreground="{DynamicResource Text}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalContentAlignment="Stretch">
-            <ListBox.ItemTemplate><DataTemplate><Grid Margin="3"><Grid.ColumnDefinitions><ColumnDefinition Width="38" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions><Border Width="34" Height="34" CornerRadius="5" ClipToBounds="True"><Image Source="{Binding PreviewImage}" Stretch="UniformToFill" /></Border><StackPanel Grid.Column="1" Margin="9,0,0,0" VerticalAlignment="Center"><TextBlock Text="{Binding Name}" TextTrimming="CharacterEllipsis" /><TextBlock Text="{Binding Dimensions}" Foreground="{DynamicResource TextFaint}" FontFamily="{StaticResource MonoFont}" FontSize="9" /></StackPanel></Grid></DataTemplate></ListBox.ItemTemplate>
+          <Grid><TextBlock Text="LAYERS" Style="{StaticResource SectionLabel}" /><StackPanel x:Name="LayerListActions" Orientation="Horizontal" HorizontalAlignment="Right"><Button Style="{StaticResource IconButton}" Height="26" Click="DuplicateLayer_Click" ToolTip="Duplicate selected layer">Duplicate</Button><Button Style="{StaticResource IconButton}" Height="26" Click="RemoveLayer_Click" ToolTip="Remove selected layer (Delete)">Remove</Button></StackPanel></Grid>
+          <ListBox x:Name="LayerList" Height="142" Margin="0,10,0,12" ItemsSource="{Binding Layers}" SelectionChanged="LayerList_SelectionChanged" Background="{DynamicResource Glass1}" BorderBrush="{DynamicResource Line1}" Foreground="{DynamicResource Text}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalContentAlignment="Stretch" AutomationProperties.Name="Layers">
+            <ListBox.ItemTemplate><DataTemplate><Grid Margin="3"><Grid.ColumnDefinitions><ColumnDefinition Width="38" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions><Border Width="34" Height="34" CornerRadius="5" ClipToBounds="True"><Image Source="{Binding PreviewImage}" Stretch="UniformToFill" /></Border><StackPanel Grid.Column="1" Margin="9,0,0,0" VerticalAlignment="Center"><TextBlock Text="{Binding Name}" TextTrimming="CharacterEllipsis" /><TextBlock Text="{Binding Dimensions}" Foreground="{DynamicResource TextDim}" FontFamily="{StaticResource MonoFont}" FontSize="9" /></StackPanel></Grid></DataTemplate></ListBox.ItemTemplate>
           </ListBox>
-          <Grid><Grid.ColumnDefinitions><ColumnDefinition /><ColumnDefinition Width="150" /></Grid.ColumnDefinitions><TextBlock Text="Apply edits to" Foreground="{DynamicResource TextDim}" VerticalAlignment="Center" /><ComboBox x:Name="EditTargetCombo" Grid.Column="1" Height="29" SelectedIndex="0"><ComboBoxItem Content="Selected image" /><ComboBoxItem Content="All images" /></ComboBox></Grid>
+          <Grid><Grid.ColumnDefinitions><ColumnDefinition /><ColumnDefinition Width="150" /></Grid.ColumnDefinitions><TextBlock Text="Apply edits to" Foreground="{DynamicResource TextDim}" VerticalAlignment="Center" /><ComboBox x:Name="EditTargetCombo" Grid.Column="1" Height="29" SelectedIndex="0" AutomationProperties.Name="Apply edits to"><ComboBoxItem Content="Selected image" /><ComboBoxItem Content="All images" /></ComboBox></Grid>
 
+          <StackPanel x:Name="PhotoInspectorControls">
           <Border Height="1" Background="{DynamicResource Line1}" Margin="0,17" />
           <TextBlock Text="ADJUST" Style="{StaticResource SectionLabel}" />
-          <Grid Margin="0,12,0,0"><Grid.ColumnDefinitions><ColumnDefinition /><ColumnDefinition Width="42" /></Grid.ColumnDefinitions><TextBlock Text="Exposure" Foreground="{DynamicResource TextDim}" /><TextBlock x:Name="ExposureValue" Grid.Column="1" HorizontalAlignment="Right" FontFamily="{StaticResource MonoFont}" Foreground="{DynamicResource TextFaint}" /></Grid><Slider x:Name="ExposureSlider" Minimum="-100" Maximum="100" ValueChanged="Adjustment_ValueChanged" PreviewMouseLeftButtonDown="Adjustment_Begin" />
-          <Grid Margin="0,9,0,0"><Grid.ColumnDefinitions><ColumnDefinition /><ColumnDefinition Width="42" /></Grid.ColumnDefinitions><TextBlock Text="Contrast" Foreground="{DynamicResource TextDim}" /><TextBlock x:Name="ContrastValue" Grid.Column="1" HorizontalAlignment="Right" FontFamily="{StaticResource MonoFont}" Foreground="{DynamicResource TextFaint}" /></Grid><Slider x:Name="ContrastSlider" Minimum="-100" Maximum="100" ValueChanged="Adjustment_ValueChanged" PreviewMouseLeftButtonDown="Adjustment_Begin" />
-          <Grid Margin="0,9,0,0"><Grid.ColumnDefinitions><ColumnDefinition /><ColumnDefinition Width="42" /></Grid.ColumnDefinitions><TextBlock Text="Saturation" Foreground="{DynamicResource TextDim}" /><TextBlock x:Name="SaturationValue" Grid.Column="1" HorizontalAlignment="Right" FontFamily="{StaticResource MonoFont}" Foreground="{DynamicResource TextFaint}" /></Grid><Slider x:Name="SaturationSlider" Minimum="-100" Maximum="100" ValueChanged="Adjustment_ValueChanged" PreviewMouseLeftButtonDown="Adjustment_Begin" />
-          <Grid Margin="0,9,0,0"><Grid.ColumnDefinitions><ColumnDefinition /><ColumnDefinition Width="42" /></Grid.ColumnDefinitions><TextBlock Text="Temperature" Foreground="{DynamicResource TextDim}" /><TextBlock x:Name="TemperatureValue" Grid.Column="1" HorizontalAlignment="Right" FontFamily="{StaticResource MonoFont}" Foreground="{DynamicResource TextFaint}" /></Grid><Slider x:Name="TemperatureSlider" Minimum="-100" Maximum="100" ValueChanged="Adjustment_ValueChanged" PreviewMouseLeftButtonDown="Adjustment_Begin" />
-          <Grid Margin="0,9,0,0"><Grid.ColumnDefinitions><ColumnDefinition /><ColumnDefinition Width="42" /></Grid.ColumnDefinitions><TextBlock Text="Opacity" Foreground="{DynamicResource TextDim}" /><TextBlock x:Name="OpacityValue" Grid.Column="1" HorizontalAlignment="Right" FontFamily="{StaticResource MonoFont}" Foreground="{DynamicResource TextFaint}" /></Grid><Slider x:Name="OpacitySlider" Minimum="0" Maximum="100" Value="100" ValueChanged="Opacity_ValueChanged" PreviewMouseLeftButtonDown="Adjustment_Begin" />
+          <Grid Margin="0,12,0,0"><Grid.ColumnDefinitions><ColumnDefinition /><ColumnDefinition Width="42" /></Grid.ColumnDefinitions><TextBlock Text="Exposure" Foreground="{DynamicResource TextDim}" /><TextBlock x:Name="ExposureValue" Grid.Column="1" HorizontalAlignment="Right" FontFamily="{StaticResource MonoFont}" Foreground="{DynamicResource TextDim}" /></Grid><Slider x:Name="ExposureSlider" Minimum="-100" Maximum="100" ValueChanged="Adjustment_ValueChanged" PreviewMouseLeftButtonDown="Adjustment_Begin" AutomationProperties.Name="Exposure" />
+          <Grid Margin="0,9,0,0"><Grid.ColumnDefinitions><ColumnDefinition /><ColumnDefinition Width="42" /></Grid.ColumnDefinitions><TextBlock Text="Contrast" Foreground="{DynamicResource TextDim}" /><TextBlock x:Name="ContrastValue" Grid.Column="1" HorizontalAlignment="Right" FontFamily="{StaticResource MonoFont}" Foreground="{DynamicResource TextDim}" /></Grid><Slider x:Name="ContrastSlider" Minimum="-100" Maximum="100" ValueChanged="Adjustment_ValueChanged" PreviewMouseLeftButtonDown="Adjustment_Begin" AutomationProperties.Name="Contrast" />
+          <Grid Margin="0,9,0,0"><Grid.ColumnDefinitions><ColumnDefinition /><ColumnDefinition Width="42" /></Grid.ColumnDefinitions><TextBlock Text="Saturation" Foreground="{DynamicResource TextDim}" /><TextBlock x:Name="SaturationValue" Grid.Column="1" HorizontalAlignment="Right" FontFamily="{StaticResource MonoFont}" Foreground="{DynamicResource TextDim}" /></Grid><Slider x:Name="SaturationSlider" Minimum="-100" Maximum="100" ValueChanged="Adjustment_ValueChanged" PreviewMouseLeftButtonDown="Adjustment_Begin" AutomationProperties.Name="Saturation" />
+          <Grid Margin="0,9,0,0"><Grid.ColumnDefinitions><ColumnDefinition /><ColumnDefinition Width="42" /></Grid.ColumnDefinitions><TextBlock Text="Temperature" Foreground="{DynamicResource TextDim}" /><TextBlock x:Name="TemperatureValue" Grid.Column="1" HorizontalAlignment="Right" FontFamily="{StaticResource MonoFont}" Foreground="{DynamicResource TextDim}" /></Grid><Slider x:Name="TemperatureSlider" Minimum="-100" Maximum="100" ValueChanged="Adjustment_ValueChanged" PreviewMouseLeftButtonDown="Adjustment_Begin" AutomationProperties.Name="Temperature" />
+          <Grid Margin="0,9,0,0"><Grid.ColumnDefinitions><ColumnDefinition /><ColumnDefinition Width="42" /></Grid.ColumnDefinitions><TextBlock Text="Highlights" Foreground="{DynamicResource TextDim}" /><TextBlock x:Name="HighlightsValue" Grid.Column="1" HorizontalAlignment="Right" FontFamily="{StaticResource MonoFont}" Foreground="{DynamicResource TextDim}" /></Grid><Slider x:Name="HighlightsSlider" Minimum="-100" Maximum="100" ValueChanged="Adjustment_ValueChanged" PreviewMouseLeftButtonDown="Adjustment_Begin" AutomationProperties.Name="Highlights" />
+          <Grid Margin="0,9,0,0"><Grid.ColumnDefinitions><ColumnDefinition /><ColumnDefinition Width="42" /></Grid.ColumnDefinitions><TextBlock Text="Shadows" Foreground="{DynamicResource TextDim}" /><TextBlock x:Name="ShadowsValue" Grid.Column="1" HorizontalAlignment="Right" FontFamily="{StaticResource MonoFont}" Foreground="{DynamicResource TextDim}" /></Grid><Slider x:Name="ShadowsSlider" Minimum="-100" Maximum="100" ValueChanged="Adjustment_ValueChanged" PreviewMouseLeftButtonDown="Adjustment_Begin" AutomationProperties.Name="Shadows" />
+          <Grid Margin="0,9,0,0"><Grid.ColumnDefinitions><ColumnDefinition /><ColumnDefinition Width="42" /></Grid.ColumnDefinitions><TextBlock Text="Vibrance" Foreground="{DynamicResource TextDim}" /><TextBlock x:Name="VibranceValue" Grid.Column="1" HorizontalAlignment="Right" FontFamily="{StaticResource MonoFont}" Foreground="{DynamicResource TextDim}" /></Grid><Slider x:Name="VibranceSlider" Minimum="-100" Maximum="100" ValueChanged="Adjustment_ValueChanged" PreviewMouseLeftButtonDown="Adjustment_Begin" AutomationProperties.Name="Vibrance" />
+          <Grid Margin="0,9,0,0"><Grid.ColumnDefinitions><ColumnDefinition /><ColumnDefinition Width="42" /></Grid.ColumnDefinitions><TextBlock Text="Opacity" Foreground="{DynamicResource TextDim}" /><TextBlock x:Name="OpacityValue" Grid.Column="1" HorizontalAlignment="Right" FontFamily="{StaticResource MonoFont}" Foreground="{DynamicResource TextDim}" /></Grid><Slider x:Name="OpacitySlider" Minimum="0" Maximum="100" Value="100" ValueChanged="Opacity_ValueChanged" PreviewMouseLeftButtonDown="Adjustment_Begin" AutomationProperties.Name="Layer opacity" />
 
           <Border Height="1" Background="{DynamicResource Line1}" Margin="0,17" />
           <TextBlock Text="RESIZE" Style="{StaticResource SectionLabel}" />
-          <StackPanel Orientation="Horizontal" Margin="0,11,0,0"><TextBox x:Name="WidthBox" Style="{StaticResource Field}" Width="88" ToolTip="Width in pixels" /><TextBlock Text="×" Foreground="{DynamicResource TextFaint}" VerticalAlignment="Center" Margin="8,0" /><TextBox x:Name="HeightBox" Style="{StaticResource Field}" Width="88" ToolTip="Height in pixels" /><CheckBox x:Name="LockAspectCheck" IsChecked="True" Content="Lock" Foreground="{DynamicResource TextDim}" VerticalAlignment="Center" Margin="10,0,0,0" /></StackPanel>
+          <StackPanel Orientation="Horizontal" Margin="0,11,0,0"><TextBox x:Name="WidthBox" Style="{StaticResource Field}" Width="88" ToolTip="Width in pixels" AutomationProperties.Name="Width in pixels" /><TextBlock Text="×" Foreground="{DynamicResource TextDim}" VerticalAlignment="Center" Margin="8,0" /><TextBox x:Name="HeightBox" Style="{StaticResource Field}" Width="88" ToolTip="Height in pixels" AutomationProperties.Name="Height in pixels" /><CheckBox x:Name="LockAspectCheck" IsChecked="True" Content="Lock" Foreground="{DynamicResource TextDim}" VerticalAlignment="Center" Margin="10,0,0,0" AutomationProperties.Name="Lock aspect ratio" /></StackPanel>
           <Button Style="{StaticResource SecondaryButton}" Height="34" Margin="0,9,0,0" Click="Resize_Click">Resize selected / all</Button>
 
-          <TextBlock Text="AI-STYLE UPSCALER" Style="{StaticResource SectionLabel}" Margin="0,17,0,0" />
+          <TextBlock Text="REAL-ESRGAN AI UPSCALER" Style="{StaticResource SectionLabel}" Margin="0,17,0,0" />
           <Grid Margin="0,10,0,0"><Grid.ColumnDefinitions><ColumnDefinition /><ColumnDefinition Width="54" /></Grid.ColumnDefinitions><TextBlock Text="Scale" Foreground="{DynamicResource TextDim}" /><TextBlock x:Name="UpscaleValue" Grid.Column="1" HorizontalAlignment="Right" Foreground="{DynamicResource AccentBright}" FontFamily="{StaticResource MonoFont}" /></Grid>
-          <Slider x:Name="UpscaleSlider" Minimum="100" Maximum="1000" Value="200" TickFrequency="25" ValueChanged="Upscale_ValueChanged" />
-          <Button Style="{StaticResource PrimaryButton}" Padding="14,8" Margin="0,6,0,0" Click="Upscale_Click">Upscale locally</Button>
-          <TextBlock Text="High-quality resampling uses GPU-preferred rendering with a safe CPU fallback." Foreground="{DynamicResource TextFaint}" FontSize="10" TextWrapping="Wrap" Margin="0,7,0,0" />
+          <Slider x:Name="UpscaleSlider" Minimum="100" Maximum="1000" Value="200" TickFrequency="25" ValueChanged="Upscale_ValueChanged" AutomationProperties.Name="Upscale percentage" />
+          <Button x:Name="UpscaleButton" Style="{StaticResource PrimaryButton}" Padding="14,8" Margin="0,6,0,0" Click="Upscale_Click">AI upscale locally</Button>
+          <ProgressBar x:Name="UpscaleProgress" Height="5" Minimum="0" Maximum="100" Margin="0,8,0,0" Visibility="Collapsed" BorderThickness="0" Background="{DynamicResource Glass4}" Foreground="{DynamicResource Accent}" AutomationProperties.Name="Upscale progress" />
+          <TextBlock Text="Uses the real Real-ESRGAN neural model locally. The official engine downloads once on first use; images never leave this PC." Foreground="{DynamicResource TextDim}" FontSize="10" TextWrapping="Wrap" Margin="0,7,0,0" />
 
           <TextBlock Text="BACKGROUND REMOVER" Style="{StaticResource SectionLabel}" Margin="0,17,0,0" />
-          <Grid Margin="0,10,0,0"><Grid.ColumnDefinitions><ColumnDefinition /><ColumnDefinition Width="54" /></Grid.ColumnDefinitions><TextBlock Text="Edge tolerance" Foreground="{DynamicResource TextDim}" /><TextBlock x:Name="BackgroundValue" Grid.Column="1" HorizontalAlignment="Right" Foreground="{DynamicResource TextFaint}" FontFamily="{StaticResource MonoFont}" /></Grid>
-          <Slider x:Name="BackgroundSlider" Minimum="0" Maximum="100" Value="35" ValueChanged="Background_ValueChanged" />
-          <Button Style="{StaticResource SecondaryButton}" Height="35" Margin="0,6,0,0" Click="RemoveBackground_Click">Remove background</Button>
+          <Grid Margin="0,10,0,0"><Grid.ColumnDefinitions><ColumnDefinition /><ColumnDefinition Width="154" /></Grid.ColumnDefinitions><TextBlock Text="Remove region" Foreground="{DynamicResource TextDim}" VerticalAlignment="Center" /><ComboBox x:Name="BackgroundModeCombo" Grid.Column="1" Height="29" SelectedIndex="0" AutomationProperties.Name="Background removal region"><ComboBoxItem Content="Outer only" ToolTip="Preserve enclosed areas of the same color" /><ComboBoxItem Content="Inner only" ToolTip="Remove enclosed matching-color regions" /><ComboBoxItem Content="All matching color" /></ComboBox></Grid>
+          <Grid Margin="0,9,0,0"><Grid.ColumnDefinitions><ColumnDefinition /><ColumnDefinition Width="54" /></Grid.ColumnDefinitions><TextBlock Text="Edge tolerance" Foreground="{DynamicResource TextDim}" /><TextBlock x:Name="BackgroundValue" Grid.Column="1" HorizontalAlignment="Right" Foreground="{DynamicResource TextDim}" FontFamily="{StaticResource MonoFont}" /></Grid>
+          <Slider x:Name="BackgroundSlider" Minimum="0" Maximum="100" Value="35" ValueChanged="Background_ValueChanged" AutomationProperties.Name="Background edge tolerance" />
+          <Button Style="{StaticResource SecondaryButton}" Height="35" Margin="0,6,0,0" Click="RemoveBackground_Click">Remove selected background</Button>
+
+          <TextBlock Text="QUICK FILTERS" Style="{StaticResource SectionLabel}" Margin="0,17,0,0" />
+          <UniformGrid Columns="2" Margin="0,9,0,0"><Button Style="{StaticResource SecondaryButton}" Height="34" Margin="0,0,4,0" Click="Sepia_Click">Sepia</Button><Button Style="{StaticResource SecondaryButton}" Height="34" Margin="4,0,0,0" Click="Grayscale_Click">B&amp;W</Button></UniformGrid>
 
           <Border Height="1" Background="{DynamicResource Line1}" Margin="0,17" />
           <Button Style="{StaticResource SecondaryButton}" Height="35" Click="Reset_Click">Reset selected / all edits</Button>
+          </StackPanel>
         </StackPanel></ScrollViewer>
       </Border>
     </Grid>
+
+    <Border x:Name="TextOverlay" Grid.RowSpan="2" Background="{DynamicResource ModalBackdropSoft}" Visibility="Collapsed" Panel.ZIndex="30"
+            AutomationProperties.Name="Add text layer dialog">
+      <Border x:Name="TextDialog" Width="480" Background="{DynamicResource BgChrome}" BorderBrush="{DynamicResource AccentLine}" BorderThickness="1" CornerRadius="14" Padding="24" HorizontalAlignment="Center" VerticalAlignment="Center"
+              FocusManager.IsFocusScope="True" KeyboardNavigation.TabNavigation="Cycle" KeyboardNavigation.ControlTabNavigation="Cycle">
+        <StackPanel>
+          <TextBlock Text="Add text layer" FontSize="20" FontWeight="SemiBold" />
+          <TextBlock Text="Text becomes an independent raster layer for positioning, opacity, filters, transforms, and export." Foreground="{DynamicResource TextDim}" FontSize="11" TextWrapping="Wrap" Margin="0,5,0,16" />
+          <TextBlock Text="CONTENT" Style="{StaticResource SectionLabel}" />
+          <TextBox x:Name="TextLayerContent" Style="{StaticResource Field}" Height="76" AcceptsReturn="True" TextWrapping="Wrap" VerticalContentAlignment="Top" Margin="0,7,0,14" Text="Your text" AutomationProperties.Name="Text content" />
+          <Grid><Grid.ColumnDefinitions><ColumnDefinition /><ColumnDefinition Width="12" /><ColumnDefinition /></Grid.ColumnDefinitions>
+            <StackPanel><TextBlock Text="FONT" Style="{StaticResource SectionLabel}" /><ComboBox x:Name="TextFontCombo" Height="32" Margin="0,7,0,0" SelectedIndex="0" AutomationProperties.Name="Font family"><ComboBoxItem Content="Segoe UI" /><ComboBoxItem Content="Arial" /><ComboBoxItem Content="Georgia" /><ComboBoxItem Content="Consolas" /><ComboBoxItem Content="Times New Roman" /></ComboBox></StackPanel>
+            <StackPanel Grid.Column="2"><TextBlock Text="COLOR" Style="{StaticResource SectionLabel}" /><TextBox x:Name="TextColorBox" Style="{StaticResource Field}" Height="32" Margin="0,7,0,0" Text="#FFFFFFFF" ToolTip="ARGB or RGB hex color" AutomationProperties.Name="Text color" /></StackPanel>
+          </Grid>
+          <Grid Margin="0,14,0,0"><Grid.ColumnDefinitions><ColumnDefinition /><ColumnDefinition Width="58" /></Grid.ColumnDefinitions><TextBlock Text="Font size" Foreground="{DynamicResource TextDim}" /><TextBlock x:Name="TextSizeValue" Grid.Column="1" Text="64 px" HorizontalAlignment="Right" Foreground="{DynamicResource AccentBright}" FontFamily="{StaticResource MonoFont}" /></Grid>
+          <Slider x:Name="TextSizeSlider" Minimum="8" Maximum="400" Value="64" ValueChanged="TextSize_ValueChanged" AutomationProperties.Name="Font size in pixels" />
+          <CheckBox x:Name="TextBoldCheck" Content="Bold" Foreground="{DynamicResource TextDim}" Margin="0,10,0,0" />
+          <Grid Margin="0,19,0,0"><Grid.ColumnDefinitions><ColumnDefinition /><ColumnDefinition Width="Auto" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions><Button Grid.Column="1" Style="{StaticResource SecondaryButton}" Height="36" Margin="0,0,8,0" Click="CancelText_Click">Cancel</Button><Button Grid.Column="2" Style="{StaticResource PrimaryButton}" Padding="18,9" Click="AddText_Click">Add layer</Button></Grid>
+        </StackPanel>
+      </Border>
+    </Border>
   </Grid>
 </UserControl>

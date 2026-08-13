@@ -9,11 +9,11 @@ public static class ThemeService
 
     private static readonly Dictionary<string, Palette> Palettes = new(StringComparer.OrdinalIgnoreCase)
     {
-        ["Hoshino"] = Make("#A855F7", "#C084FC", "#9333EA", "#0A0A0F", "#0D0D14", "#12121B", "#F5F4FB", "#9B9AAC", "#6C6B7E"),
-        ["Midnight"] = Make("#3B82F6", "#60A5FA", "#2563EB", "#070B14", "#0B1220", "#101827", "#F3F7FF", "#98A6BA", "#68778E"),
-        ["Sakura"] = Make("#EC4899", "#F472B6", "#DB2777", "#10080F", "#180D16", "#21111D", "#FFF4FA", "#B89AAA", "#846778"),
-        ["Aurora"] = Make("#14B8A6", "#2DD4BF", "#0D9488", "#06100F", "#091816", "#0D211E", "#EEFFFC", "#91B8B2", "#62847F"),
-        ["Ember"] = Make("#F97316", "#FB923C", "#EA580C", "#110B07", "#1A100A", "#24160D", "#FFF8F2", "#B5A092", "#806D61")
+        ["Hoshino"] = Make("#A855F7", "#C084FC", "#9333EA", "#0A0A0F", "#0D0D14", "#12121B", "#F5F4FB", "#9B9AAC", "#8A899C"),
+        ["Midnight"] = Make("#3B82F6", "#60A5FA", "#2563EB", "#070B14", "#0B1220", "#101827", "#F3F7FF", "#98A6BA", "#8392A8"),
+        ["Sakura"] = Make("#EC4899", "#F472B6", "#DB2777", "#10080F", "#180D16", "#21111D", "#FFF4FA", "#B89AAA", "#A18293"),
+        ["Aurora"] = Make("#14B8A6", "#2DD4BF", "#0D9488", "#06100F", "#091816", "#0D211E", "#EEFFFC", "#91B8B2", "#82A49F"),
+        ["Ember"] = Make("#F97316", "#FB923C", "#EA580C", "#110B07", "#1A100A", "#24160D", "#FFF8F2", "#B5A092", "#9A8477")
     };
 
     public static IReadOnlyList<string> ThemeNames { get; } = ["Hoshino", "Midnight", "Sakura", "Aurora", "Ember", "Custom"];

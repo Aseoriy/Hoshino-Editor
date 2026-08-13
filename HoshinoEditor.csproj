@@ -15,7 +15,7 @@
     <Company>Sail Solutions</Company>
     <Authors>Sail Solutions</Authors>
     <Copyright>© 2026 Sail Solutions</Copyright>
-    <Version>0.9.0-beta-1</Version>
+    <Version>0.9.0-beta-3</Version>
     <AssemblyVersion>0.9.0.0</AssemblyVersion>
     <FileVersion>0.9.0.0</FileVersion>
     <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
@@ -27,5 +27,9 @@
   </ItemGroup>
   <ItemGroup Condition="Exists('Tools\ffmpeg.exe')">
     <None Include="Tools\ffmpeg.exe" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Tests\**\*.cs" />
+    <None Remove="Tests\**\*" />
   </ItemGroup>
 </Project>

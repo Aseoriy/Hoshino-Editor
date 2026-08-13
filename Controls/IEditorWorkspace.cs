@@ -6,6 +6,7 @@ public interface IEditorWorkspace
 {
     string Title { get; }
     string Status { get; }
+    bool IsBusy { get; }
     event EventHandler<string>? TitleChanged;
     event EventHandler<string>? StatusChanged;
     event EventHandler? HomeRequested;
@@ -16,5 +17,7 @@ public interface IEditorWorkspace
     void Redo();
     void TogglePlayback();
     void CancelActiveTool();
+    void RefreshSettings();
+    bool CanClose();
     void Close();
 }

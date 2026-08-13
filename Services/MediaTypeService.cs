@@ -11,7 +11,7 @@ public static class MediaTypeService
     {
         var extension = Path.GetExtension(path).ToLowerInvariant();
         if (ImageExtensions.Contains(extension)) return EditorKind.Photo;
-        if (VideoExtensions.Contains(extension)) return EditorKind.Video;
+        if (VideoExtensions.Contains(extension) || extension == ".hoshino") return EditorKind.Video;
         return EditorKind.Unknown;
     }
 }
